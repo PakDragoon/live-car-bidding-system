@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('./index');
 
 const Auction = sequelize.define("Auction", {
@@ -25,19 +25,36 @@ const Auction = sequelize.define("Auction", {
     },
     start_time: {
       type: DataTypes.DATE,
-      allowNull: false,
+      defaultValue: Sequelize.NOW
     },
     end_time: {
       type: DataTypes.DATE,
       allowNull: false,
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
     status: {
       type: DataTypes.ENUM("OPEN", "CLOSED", "CANCELLED"),
       defaultValue: "OPEN",
     },
-  }, {
-    timestamps: true,
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.NOW,
+    },
   });
   
+  Auction.associate = (models) => {
+    Auction.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+  };
 
 module.exports = Auction;

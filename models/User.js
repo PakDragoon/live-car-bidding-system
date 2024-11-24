@@ -1,5 +1,6 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('./index');
+const Auction = require("./Auction")
 
 const User = sequelize.define("User", {
     id: {
@@ -20,9 +21,16 @@ const User = sequelize.define("User", {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-  }, {
-    timestamps: true, // Automatically adds `createdAt` and `updatedAt`
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.NOW,
+    },
   });
   
+  User.hasMany(Auction, { foreignKey: 'user_id', as: 'auctions' });
 
 module.exports = User;
