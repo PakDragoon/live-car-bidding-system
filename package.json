@@ -19,11 +19,12 @@
     "express-slow-down": "^2.0.3",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.4",
+    "redis": "^4.7.0",
     "sequelize": "^6.37.5",
     "ws": "^8.18.0"
   },
   "devDependencies": {
     "eslint": "^9.15.0",
     "nodemon": "^3.1.7"
-  }  
+  }
 }

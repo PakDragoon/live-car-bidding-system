@@ -7,6 +7,8 @@ const auctionRoutes = require('./routes/auctions');
 const { WebSocketServer } = require('ws');
 const bidHandler = require('./websocket/bidHandler');
 
+const serverPort = process.env.APP_PORT || 8000
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -16,7 +18,7 @@ app.use('/users', userRoutes);
 app.use('/auctions', auctionRoutes);
 
 // WebSocket
-const server = app.listen(8080, () => console.log('Server started on port 8080'));
+const server = app.listen(serverPort, () => console.log(`Server started on port ${serverPort}`));
 const wss = new WebSocketServer({ server });
 bidHandler(wss);
 
