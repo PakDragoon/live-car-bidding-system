@@ -1,9 +1,10 @@
 const redisClient = require('../config/redisClient');  // Redis client for IP blacklisting
-const { Bid, Auction } = require('../models');  // Import the Bid model for saving the bid
+const Bid = require('../models/Bid');  // Import the Bid model for saving the bid
+const Auction = require('../models/Auction');  // Import the Bid model for saving the bid
 
 let ipBidCount = {};  // In-memory store for rate limiting
 
-const MAX_BIDS_PER_MINUTE = 5; // Max bids allowed per user/IP per minute
+const MAX_BIDS_PER_MINUTE = 10; // Max bids allowed per user/IP per minute
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
 
 // Check if an IP is blacklisted
@@ -26,6 +27,7 @@ const rateLimitBid = async (ip, ws) => {
 
   const timeElapsed = currentTime - ipBidCount[ip].firstRequestTime;
 
+  console.log("🚀 ~ rateLimitBid ~ ipBidCount:", ipBidCount)
   if (timeElapsed < RATE_LIMIT_WINDOW) {
     if (ipBidCount[ip].count >= MAX_BIDS_PER_MINUTE) {
       await blacklistIp(ip)
@@ -55,10 +57,11 @@ const placeBid = async ({ auctionId, userId, amount }) => {
 
   // Update auction's current price
   auction.current_price = amount;
+  await redisClient.set(auctionId, amount)
   await auction.save();
 
   // Record the bid
-  const bid = await Bid.create({ auctionId, userId, amount });
+  const bid = await Bid.create({ auction_id: auctionId, user_id: userId, bid_amount: amount });
   return { auction, bid };
 };
 

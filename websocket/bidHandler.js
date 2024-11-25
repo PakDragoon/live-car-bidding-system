@@ -2,16 +2,17 @@ const WebSocket = require('ws');
 const { placeBid, rateLimitBid, checkBlacklistedIp } = require('../services/bidService');
 
 const bidHandler = (wss) => {
-  wss.on('connection', (ws) => {
+  wss.on('connection', (ws, req) => {
     const ip = req.socket.remoteAddress;  // Get the IP address of the connected user
     // Check blacklisting and rate limit
     checkBlacklistedIp(ip, ws);
-    rateLimitBid(ip, ws);
     console.log('WebSocket connected!');
-
+    
     ws.on('message', async (message) => {
       try {
+        rateLimitBid(ip, ws);
         const data = JSON.parse(message);
+        console.log("🚀 ~ ws.on ~ data:", data)
 
         if (data.type === 'PLACE_BID') {
           const { auctionId, userId, amount } = data;

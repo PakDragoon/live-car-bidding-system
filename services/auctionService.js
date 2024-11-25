@@ -12,6 +12,14 @@ const createAuction = async ({ name, description, starting_price, end_time }) =>
   return auction;
 };
 
+const getAllAuctions = async () => {
+  const auction = await Auction.findAll()
+  if (!auction) {
+    throw new Error('Auction not found');
+  }
+  return auction;
+};
+
 const getAuction = async (id) => {
   const auction = await Auction.findByPk(id, { include: Bid });
   if (!auction) {
@@ -22,5 +30,6 @@ const getAuction = async (id) => {
 
 module.exports = {
   createAuction,
+  getAllAuctions,
   getAuction,
 };

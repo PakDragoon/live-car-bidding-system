@@ -6,7 +6,7 @@ const AuctionList = () => {
 
   useEffect(() => {
     // Fetch list of auctions (use axios or fetch here for initial data)
-    fetch('http://localhost:8080/auctions') // Replace with your backend API
+    fetch('http://localhost:8000/auctions/all') // Replace with your backend API
       .then((res) => res.json())
       .then((data) => setAuctions(data))
       .catch((err) => console.error(err));
@@ -16,9 +16,9 @@ const AuctionList = () => {
     <div>
       <h1>Live Auctions</h1>
       <ul>
-        {auctions.map((auction) => (
+        {auctions && auctions.map((auction) => (
           <li key={auction.id}>
-            <Link to={`/auction/${auction.id}`}>{auction.name}</Link>
+            <Link to={`/auction/${auction.id}`}>{auction.title}</Link>
           </li>
         ))}
       </ul>

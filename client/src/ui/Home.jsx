@@ -8,10 +8,10 @@ function Home() {
   return (
     <div className="my-10 px-4 text-center sm:my-16">
       <h1 className="mb-8  text-xl font-semibold md:text-3xl">
-        The best kids clothing brand
+        Car Auction System
         <br />
         <span className="text-yellow-500">
-          Straight out of the factory, straight to you.
+          Join the live bidding for car auction.
         </span>
       </h1>
 

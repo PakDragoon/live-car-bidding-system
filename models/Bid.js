@@ -15,6 +15,22 @@ const Bid = sequelize.define("Bid", {
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
   },
+  auction_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'auctions',
+      key: 'id',
+    },
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id',
+    },
+  },
   ip: {
     type: DataTypes.STRING
   },
@@ -22,5 +38,12 @@ const Bid = sequelize.define("Bid", {
   timestamps: true,
 });
 
+Bid.associate = (models) => {
+  Bid.belongsTo(models.Auction, { foreignKey: 'auction_id', as: 'auction' });
+};
+
+Bid.associate = (models) => {
+  Bid.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+};
 
 module.exports = Bid;

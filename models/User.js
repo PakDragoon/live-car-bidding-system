@@ -1,6 +1,7 @@
 const { DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('./index');
 const Auction = require("./Auction")
+const Bid = require("./Bid")
 
 const User = sequelize.define("User", {
     id: {
@@ -32,5 +33,6 @@ const User = sequelize.define("User", {
   });
   
   User.hasMany(Auction, { foreignKey: 'user_id', as: 'auctions' });
+  User.hasMany(Bid, { foreignKey: 'user_id', as: 'bids' });
 
 module.exports = User;

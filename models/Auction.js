@@ -1,5 +1,6 @@
 const { DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('./index');
+const Bid = require("./Bid")
 
 const Auction = sequelize.define("Auction", {
     id: {
@@ -56,5 +57,7 @@ const Auction = sequelize.define("Auction", {
   Auction.associate = (models) => {
     Auction.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
   };
+
+  Auction.hasMany(Bid, { foreignKey: 'auction_id', as: 'bids' });
 
 module.exports = Auction;
