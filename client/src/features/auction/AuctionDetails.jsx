@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
-const SOCKET_URL = 'ws://localhost:8001'
+const SOCKET_URL = 'ws://localhost:8000'
 
 const AuctionDetails  = () => {
   const { id } = useParams();
   const [auction, setAuction] = useState(null);
-  const [bids, setBids] = useState([]);
+  const [bid, setBid] = useState(null);
   const [bidAmount, setBidAmount] = useState('');
   const [messageHistory, setMessageHistory] = useState([]);
 
@@ -48,20 +48,22 @@ const AuctionDetails  = () => {
       .then((data) => setAuction(data))
       .catch((err) => console.error(err));
 
+    fetch(`http://localhost:8000/auctions/bid/${id}`) // Replace with your backend API
+      .then((res) => res.json())
+      .then((data) => setBid(data?.bid))
+      .catch((err) => console.error(err));
+
     return () => console.log("cleanup")
-  }, [id]);
+  }, [bidAmount]);
 
   return (
     <div>
-      <h1>{auction?.title}</h1>
-      <div>Connection Status: {connectionStatus}</div>
+      <div className='mb-4'>Connection Status: {connectionStatus}</div>
+      <div>Auction Detail</div>
+      <h1>Name: {auction?.title}</h1>
+      <p>Description: {auction?.description}</p>
       {lastMessage ? <div>Last Bid Info: {lastMessage.data}</div> : null}
-      <h2>Current Highest Bid: {bids[bids.length - 1]?.bid_amount || 'No bids yet'}</h2>
-      <ul>
-        {bids.map((bid, index) => (
-          <li key={index}>{bid.name}: ${bid.bid_amount}</li>
-        ))}
-      </ul>
+      <h2 className='mb-4'>Current Highest Bid: {bid || 'No bids yet'}</h2>
       <div>
         <input
           type="number"

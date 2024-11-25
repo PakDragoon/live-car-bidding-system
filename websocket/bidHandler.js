@@ -12,7 +12,6 @@ const bidHandler = (wss) => {
       try {
         rateLimitBid(ip, ws);
         const data = JSON.parse(message);
-        console.log("🚀 ~ ws.on ~ data:", data)
 
         if (data.type === 'PLACE_BID') {
           const { auctionId, userId, amount } = data;

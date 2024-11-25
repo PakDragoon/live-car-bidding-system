@@ -7,6 +7,12 @@ let ipBidCount = {};  // In-memory store for rate limiting
 const MAX_BIDS_PER_MINUTE = 10; // Max bids allowed per user/IP per minute
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
 
+// Get highest bid of a auction
+const getHighestBid = async (id) => {
+  const highestBid = await redisClient.get(id);
+  if (highestBid) return { bid: highestBid }
+};
+
 // Check if an IP is blacklisted
 const checkBlacklistedIp = async (ip, ws) => {
   const isBlacklisted = await redisClient.get(ip);
@@ -27,7 +33,6 @@ const rateLimitBid = async (ip, ws) => {
 
   const timeElapsed = currentTime - ipBidCount[ip].firstRequestTime;
 
-  console.log("🚀 ~ rateLimitBid ~ ipBidCount:", ipBidCount)
   if (timeElapsed < RATE_LIMIT_WINDOW) {
     if (ipBidCount[ip].count >= MAX_BIDS_PER_MINUTE) {
       await blacklistIp(ip)
@@ -65,4 +70,4 @@ const placeBid = async ({ auctionId, userId, amount }) => {
   return { auction, bid };
 };
 
-module.exports = { rateLimitBid, checkBlacklistedIp, placeBid, blacklistIp };
+module.exports = { rateLimitBid, checkBlacklistedIp, placeBid, blacklistIp, getHighestBid };

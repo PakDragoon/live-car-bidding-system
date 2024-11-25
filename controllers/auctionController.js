@@ -1,4 +1,6 @@
+const redisClient = require('../config/redisClient'); 
 const auctionService = require('../services/auctionService');
+const bidService = require('../services/bidService');
 
 const createAuction = async (req, res) => {
   try {
@@ -27,7 +29,17 @@ const getAuction = async (req, res) => {
   }
 };
 
+const getHighestBid = async (req, res) => {
+  try {
+    const bid = await bidService.getHighestBid(req.params.id);
+    res.status(200).json(bid);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+
 module.exports = {
+  getHighestBid,
   createAuction,
   getAllAuctions,
   getAuction,

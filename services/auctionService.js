@@ -21,10 +21,8 @@ const getAllAuctions = async () => {
 };
 
 const getAuction = async (id) => {
-  const auction = await Auction.findByPk(id, { include: Bid });
-  if (!auction) {
-    throw new Error('Auction not found');
-  }
+  const auction = await Auction.findByPk(id);
+  if (!auction) throw new Error('Auction not found');
   return auction;
 };
 
