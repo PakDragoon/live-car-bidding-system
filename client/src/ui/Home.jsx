@@ -1,9 +1,9 @@
 // import { useSelector } from 'react-redux';
 // import CreateUser from '../features/user/CreateUser';
-// import Button from './Button';
+import LinkButton from './Button';
 
 function Home() {
-  // const username = useSelector((state) => state.user.username);
+  const authenticated = false
 
   return (
     <div className="my-10 px-4 text-center sm:my-16">
@@ -15,13 +15,12 @@ function Home() {
         </span>
       </h1>
 
-      {/* {username === '' ? (
-        <CreateUser />
-      ) : (
-        <Button to="/menu" type="primary">
-          Continue ordering, {username}
-        </Button>
-      )} */}
+      {authenticated ? <LinkButton to="/auction/list">All Auctions</LinkButton> : (
+        <div className='flex flex-col justify-center gap-y-2.5'>
+          <LinkButton to="/login" type="primary">Login</LinkButton>
+          <LinkButton to="/create/user" type="secondary">Create User</LinkButton>
+        </div>
+      )}
     </div>
   );
 }

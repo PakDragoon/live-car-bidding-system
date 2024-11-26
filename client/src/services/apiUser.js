@@ -1,7 +1,7 @@
 import axios from "axios"
-const API_URL = "http://localhost:8000/auctions";
+const API_URL = "http://localhost:8000/users";
 
-export async function fetchAuctions() {
+export async function createNewUser() {
   try {
     const response = await axios.get(`${API_URL}/all`);
     return response?.data
@@ -11,9 +11,9 @@ export async function fetchAuctions() {
   }
 }
 
-export async function fetchAuctionDetail(id) {
+export async function authenticateUser() {
   try {
-    const response = await axios.get(`${API_URL}/${id}`);
+    const response = await axios.get(`${API_URL}/auctions/${id}`);
     return response?.data
   } catch (error) {
     console.error(error);

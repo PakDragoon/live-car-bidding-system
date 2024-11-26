@@ -1,10 +1,12 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AuctionList, { loader as auctionLoader } from './features/auction/AuctionList'
+import AuctionDetails, { loader as auctionDetailLoader } from './features/auction/AuctionDetails';
+import CreateUser, { action as createUserAction } from './features/user/CreateUser';
+import AuthenticateUser, { action as authenticateAction } from './features/user/CreateUser';
 
 import Home from './ui/Home';
 import Error from './ui/Error';
 import AppLayout from './ui/AppLayout';
-import AuctionDetails, { loader as auctionDetailLoader } from './features/auction/AuctionDetails';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +17,18 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/create/user',
+        element: <CreateUser />,
+        action: createUserAction,
+        errorElement: <Error />,
+      },
+      {
+        path: '/login',
+        element: <AuthenticateUser />,
+        action: authenticateAction,
+        errorElement: <Error />,
       },
       {
         path: '/auction/list',

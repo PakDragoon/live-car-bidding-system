@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Username from '../features/user/Username'
 const loggedIn = true
 
 function Header() {
@@ -7,17 +8,13 @@ function Header() {
       <Link to="/" className="tracking-widest">
         Live Car Bidding System
       </Link>
-      {loggedIn ? (
+      {loggedIn &&
         <div>
           <Link to="/" className="tracking-widest mr-4">Home</Link>
           <Link to="/auction/list" className="tracking-widest mr-4">Auctions</Link>
-          <Link to="/logout" className="tracking-widest mr-4">Logout</Link>
-        </div>
-      ) : (
-        <div>
-          <Link to="/login" className="tracking-widest mr-4">Login</Link>
-        </div>
-      )}
+          <Link to="/" className="tracking-widest mr-4">Logout</Link>
+        </div>}
+      <Username />
     </header>
   );
 }

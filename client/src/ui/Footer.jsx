@@ -6,6 +6,7 @@ function Footer() {
       <Link to="/" className="tracking-widest">
         Live Car Bidding System
       </Link>
+      <div>livecarauction.com © 2024</div>
     </footer>
   );
 }
