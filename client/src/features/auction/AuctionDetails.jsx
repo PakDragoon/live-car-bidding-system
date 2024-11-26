@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLoaderData } from 'react-router-dom';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { fetchAuctionDetail } from '../../services/apiAuction';
 
 const SOCKET_URL = 'ws://localhost:8000'
 
 const AuctionDetails  = () => {
+  const auction = useLoaderData()
   const { id } = useParams();
-  const [auction, setAuction] = useState(null);
   const [bid, setBid] = useState(null);
   const [bidAmount, setBidAmount] = useState('');
   const [messageHistory, setMessageHistory] = useState([]);
@@ -42,18 +43,12 @@ const AuctionDetails  = () => {
   }, [bidAmount])
 
   useEffect(() => {
-    // Fetch auction details and initial bids
-    fetch(`http://localhost:8000/auctions/${id}`) // Replace with your backend API
-      .then((res) => res.json())
-      .then((data) => setAuction(data))
-      .catch((err) => console.error(err));
-
     fetch(`http://localhost:8000/auctions/bid/${id}`) // Replace with your backend API
       .then((res) => res.json())
       .then((data) => setBid(data?.bid))
       .catch((err) => console.error(err));
 
-    return () => console.log("cleanup")
+    return () => console.log("cleanup auction detail")
   }, [bidAmount]);
 
   return (
@@ -83,5 +78,10 @@ const AuctionDetails  = () => {
     </div>
   );
 };
+
+export async function loader({ params }) {
+  const data = await fetchAuctionDetail(params.id);
+  return data;
+}
 
 export default AuctionDetails;

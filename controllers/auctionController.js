@@ -14,6 +14,10 @@ const createAuction = async (req, res) => {
 const getAllAuctions = async (req, res) => {
   try {
     const auction = await auctionService.getAllAuctions();
+    // To check the loader in the frontend
+    // for (let i = 0; i < 10000000000; i++) {
+    //   let a = 3
+    // }
     res.status(200).json(auction);
   } catch (error) {
     res.status(404).json({ error: error.message });

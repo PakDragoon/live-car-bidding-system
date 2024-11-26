@@ -1,10 +1,10 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import AuctionList, { loader as auctionLoader } from './features/auction/AuctionList'
 
 import Home from './ui/Home';
 import Error from './ui/Error';
 import AppLayout from './ui/AppLayout';
-import AuctionList from './features/auction/AuctionList';
-import AuctionDetails from './features/auction/AuctionDetails';
+import AuctionDetails, { loader as auctionDetailLoader } from './features/auction/AuctionDetails';
 
 const router = createBrowserRouter([
   {
@@ -19,13 +19,13 @@ const router = createBrowserRouter([
       {
         path: '/auction/list',
         element: <AuctionList />,
-        // loader: menuLoader,
+        loader: auctionLoader,
         errorElement: <Error />,
       },
       {
         path: '/auction/:id',
         element: <AuctionDetails />,
-        // loader: orderLoader,
+        loader: auctionDetailLoader,
         errorElement: <Error />,
       },
     ],
