@@ -1,6 +1,9 @@
 import Button from '../../ui/Button';
 import { useNavigation, useActionData, redirect, Form } from 'react-router-dom';
 import { isValidEmail } from '../../utils/helpers'
+import { authenticateUser } from '../../services/apiUser';
+import { userInfo } from './userSlice';
+import store from "../../store"
 
 function AuthenticateUser() {
   const formErrors = useActionData();
@@ -38,9 +41,10 @@ export async function action({ request }) {
   const errors = {};
   if (!isValidEmail(data.email)) errors.email = 'Please give us your valid email. You will need it for login.';
   if (Object.keys(errors).length > 0) return errors;
-  
-  console.log("🚀 ~ action ~ data:", data)
-  // const newOrder = await authenticateUser(data);
+
+  const user = await authenticateUser(data);
+  console.log("🚀 ~ action ~ user:", user)
+  store.dispatch(userInfo(user))
 
   return redirect(`/auction/all`);
 }

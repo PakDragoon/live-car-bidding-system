@@ -1,6 +1,7 @@
 import Button from '../../ui/Button';
 import { useNavigation, useActionData, redirect, Form } from 'react-router-dom';
 import { isValidEmail, isValidPassword } from '../../utils/helpers'
+import { createNewUser } from '../../services/apiUser';
 
 function CreateUser() {
   const formErrors = useActionData();
@@ -11,10 +12,10 @@ function CreateUser() {
     <Form method="POST">
       <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
         <label className="sm:basis-40">Full Name</label>
-        <input className="input grow" type="text" name="fullname" required />
-        {formErrors?.fullname && (
+        <input className="input grow" type="text" name="name" required />
+        {formErrors?.name && (
           <p className="mt-2 rounded-md bg-red-100 p-2 text-xs text-red-700">
-            {formErrors.fullname}
+            {formErrors.name}
           </p>
         )}
       </div>
@@ -52,12 +53,11 @@ export async function action({ request }) {
   
   const errors = {};
   if (!isValidEmail(data.email)) errors.email = 'Please give us your valid email. You will need it for login.';
-  if (!isValidPassword(data.password)) errors.password = 'Password should have minimum 8 characters and at least (one uppercase, one lowercase, one digit)';
-  
+  if (!isValidPassword(data.password)) errors.password = 'Password should have minimum 8 characters and at least (one uppercase, one lowercase, one digit)';  
   if (Object.keys(errors).length > 0) return errors;
-  
-  console.log("🚀 ~ action ~ data:", data)
-  // const newOrder = await createNewUser(data);
+
+  const newUser = await createNewUser(data);
+  console.log("🚀 ~ action ~ newUser:", newUser)
 
   return redirect(`/login`);
 }

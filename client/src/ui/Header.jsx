@@ -1,8 +1,19 @@
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearInfo } from "../features/user/userSlice"
 import Username from '../features/user/Username'
-const loggedIn = true
+import LinkButton from './LinkButton';
 
 function Header() {
+  const dispatch = useDispatch()
+  const { email, name } = useSelector((state) => state.user)
+  const loggedIn = email ? true : false
+
+  const handleLogout = () => {
+    dispatch(clearInfo())
+    redirect("/")
+  }
+
   return (
     <header className="flex items-center justify-between border-b border-stone-200 bg-yellow-400 px-4 py-3 uppercase sm:px-6">
       <Link to="/" className="tracking-widest">
@@ -12,9 +23,9 @@ function Header() {
         <div>
           <Link to="/" className="tracking-widest mr-4">Home</Link>
           <Link to="/auction/list" className="tracking-widest mr-4">Auctions</Link>
-          <Link to="/" className="tracking-widest mr-4">Logout</Link>
+          <LinkButton onClick={handleLogout} className="tracking-widest mr-4">Logout</LinkButton>
         </div>}
-      <Username />
+      <Username username={name} />
     </header>
   );
 }

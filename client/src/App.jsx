@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AuctionList, { loader as auctionLoader } from './features/auction/AuctionList'
 import AuctionDetails, { loader as auctionDetailLoader } from './features/auction/AuctionDetails';
 import CreateUser, { action as createUserAction } from './features/user/CreateUser';
-import AuthenticateUser, { action as authenticateAction } from './features/user/CreateUser';
+import AuthenticateUser, { action as authenticateAction } from './features/user/AuthenticateUser';
 
 import Home from './ui/Home';
 import Error from './ui/Error';

@@ -1,6 +1,4 @@
-function Username() {
-  const username = "Hassan Ali"
-
+function Username({ username }) {
   if (!username) return null;
 
   return (

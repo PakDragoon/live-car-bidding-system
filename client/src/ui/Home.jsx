@@ -1,9 +1,9 @@
-// import { useSelector } from 'react-redux';
-// import CreateUser from '../features/user/CreateUser';
+import { useSelector } from 'react-redux';
 import LinkButton from './Button';
 
 function Home() {
-  const authenticated = false
+  const { email } = useSelector((state) => state.user)
+  const authenticated = email ? true : false
 
   return (
     <div className="my-10 px-4 text-center sm:my-16">

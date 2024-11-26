@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams, useLoaderData } from 'react-router-dom';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { fetchAuctionDetail } from '../../services/apiAuction';
@@ -6,6 +7,7 @@ import { fetchAuctionDetail } from '../../services/apiAuction';
 const SOCKET_URL = 'ws://localhost:8000'
 
 const AuctionDetails  = () => {
+  const { id: { userId }} = useSelector((state) => state.user)
   const auction = useLoaderData()
   const { id } = useParams();
   const [bid, setBid] = useState(null);
@@ -36,7 +38,7 @@ const AuctionDetails  = () => {
         type: 'PLACE_BID',
         auctionId: id,
         amount: parseFloat(bidAmount),
-        userId: 1
+        userId
       });
       setBidAmount(''); // Clear input field
     }
