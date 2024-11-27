@@ -62,8 +62,8 @@ const placeBid = async ({ auctionId, userId, amount }) => {
 
   // Update auction's current price
   auction.current_price = amount;
-  await redisClient.set(auctionId, amount)
   await auction.save();
+  await redisClient.set(auctionId, amount)
 
   // Record the bid
   const bid = await Bid.create({ auction_id: auctionId, user_id: userId, bid_amount: amount });
