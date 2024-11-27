@@ -7,6 +7,7 @@ import AuthenticateUser, { action as authenticateAction } from './features/user/
 import Home from './ui/Home';
 import Error from './ui/Error';
 import AppLayout from './ui/AppLayout';
+import ProtectedRoute from './features/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -31,16 +32,21 @@ const router = createBrowserRouter([
         errorElement: <Error />,
       },
       {
-        path: '/auction/list',
-        element: <AuctionList />,
-        loader: auctionLoader,
-        errorElement: <Error />,
-      },
-      {
-        path: '/auction/:id',
-        element: <AuctionDetails />,
-        loader: auctionDetailLoader,
-        errorElement: <Error />,
+        element: <ProtectedRoute />, // Protect all nested routes
+        children: [
+          {
+            path: '/auction/list',
+            element: <AuctionList />,
+            loader: auctionLoader,
+            errorElement: <Error />,
+          },
+          {
+            path: '/auction/:id',
+            element: <AuctionDetails />,
+            loader: auctionDetailLoader,
+            errorElement: <Error />,
+          },
+        ],
       },
     ],
   },

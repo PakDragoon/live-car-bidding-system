@@ -7,7 +7,7 @@ import { fetchAuctionDetail } from '../../services/apiAuction';
 const SOCKET_URL = 'ws://localhost:8000'
 
 const AuctionDetails  = () => {
-  const { id: { userId }} = useSelector((state) => state.user)
+  const { userId } = useSelector((state) => state.user)
   const auction = useLoaderData()
   const { id } = useParams();
   const [bid, setBid] = useState(null);

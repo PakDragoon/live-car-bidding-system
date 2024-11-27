@@ -28,7 +28,7 @@ function AuthenticateUser() {
       </div>
 
       <Button disabled={isSubmitting} type="primary">
-        {isSubmitting ? 'Creating User....' : `Create User`}
+        {isSubmitting ? 'Logging in....' : `Login`}
       </Button>
     </Form>
   );
@@ -43,10 +43,9 @@ export async function action({ request }) {
   if (Object.keys(errors).length > 0) return errors;
 
   const user = await authenticateUser(data);
-  console.log("🚀 ~ action ~ user:", user)
   store.dispatch(userInfo(user))
 
-  return redirect(`/auction/all`);
+  return redirect(`/auction/list`);
 }
 
 export default AuthenticateUser;

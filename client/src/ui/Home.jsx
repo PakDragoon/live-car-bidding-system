@@ -2,8 +2,7 @@ import { useSelector } from 'react-redux';
 import LinkButton from './Button';
 
 function Home() {
-  const { email } = useSelector((state) => state.user)
-  const authenticated = email ? true : false
+  const { userId } = useSelector((state) => state.user)
 
   return (
     <div className="my-10 px-4 text-center sm:my-16">
@@ -15,7 +14,7 @@ function Home() {
         </span>
       </h1>
 
-      {authenticated ? <LinkButton to="/auction/list">All Auctions</LinkButton> : (
+      {userId ? <LinkButton to="/auction/list">All Auctions</LinkButton> : (
         <div className='flex flex-col justify-center gap-y-2.5'>
           <LinkButton to="/login" type="primary">Login</LinkButton>
           <LinkButton to="/create/user" type="secondary">Create User</LinkButton>

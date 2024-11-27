@@ -1,17 +1,17 @@
-import { Link, redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearInfo } from "../features/user/userSlice"
 import Username from '../features/user/Username'
-import LinkButton from './LinkButton';
+import Button from './Button';
 
 function Header() {
   const dispatch = useDispatch()
-  const { email, name } = useSelector((state) => state.user)
-  const loggedIn = email ? true : false
+  const navigate = useNavigate()
+  const { name } = useSelector((state) => state.user)
 
   const handleLogout = () => {
     dispatch(clearInfo())
-    redirect("/")
+    navigate("/")
   }
 
   return (
@@ -19,11 +19,11 @@ function Header() {
       <Link to="/" className="tracking-widest">
         Live Car Bidding System
       </Link>
-      {loggedIn &&
+      {name &&
         <div>
           <Link to="/" className="tracking-widest mr-4">Home</Link>
           <Link to="/auction/list" className="tracking-widest mr-4">Auctions</Link>
-          <LinkButton onClick={handleLogout} className="tracking-widest mr-4">Logout</LinkButton>
+          <Button onClick={handleLogout} className="tracking-widest mr-4">LOGOUT</Button>
         </div>}
       <Username username={name} />
     </header>
